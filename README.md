@@ -510,7 +510,7 @@ public class Car : MonoBehaviour
         float torque = forwardVelocity * turnAxis * (Mathf.Deg2Rad * turnAngle);
         torque += -rotationalVelocity * rotationalDamping;
         
-        rigidbody.AddTorque(rotationAxis * turnForce);
+        rigidbody.AddTorque(rotationAxis * torque);
     }
     #endregion
 }
