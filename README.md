@@ -396,12 +396,6 @@ public class Car : MonoBehaviour
     [Tooltip("Max longitudinal force output. Force output is proportional to (1 - (currentSpeed / maxSpeed)).")]
     [Range(15f, 35f)]
     [SerializeField] float maxSpeed = 25f;
-    
-    [Header("Steering")]
-    
-    float steeringAngle = 30f;
-    
-    float rotationalDamping = 5f;
 
     [Header("Friction")]
 
@@ -412,6 +406,10 @@ public class Car : MonoBehaviour
     [Tooltip("Lateral friction coefficient. Used to apply oppositional lateral force proportional to velocity.")]
     [Range(1f, 5f)]
     [SerializeField] float lateralFriction = 2f;
+
+    [Header("Steering")]
+    [SerializeField] float steeringAngle = 30f;
+    [SerializeField] float turnDamping = 5f;
 
     # region Public Interface
     /*  Accepts and validates external drive input.
@@ -507,12 +505,13 @@ public class Car : MonoBehaviour
         float rotationalVelocity = Vector3.Dot(transform.up, rigidbody.angularVelocity);
         
         Vector3 rotationAxis = transform.up;
-        float torque = forwardVelocity * turnAxis * (Mathf.Deg2Rad * turnAngle);
-        torque += -rotationalVelocity * rotationalDamping;
+        float torque = forwardVelocity * turnAxis * (Mathf.Deg2Rad * steeringAngle);
+        torque += -rotationalVelocity * turnDamping;
         
         rigidbody.AddTorque(rotationAxis * torque);
     }
     #endregion
 }
+
 
 ```
